@@ -60,8 +60,9 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 var rndkey = Object.keys(ingredients.Meat)[rnd];
                 //alert(rndkey); "Sausage":{"SausageMeat": "132", "SausageVeg": "76"},
                 //alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
-                sausageValue = ingredients.Meat[rndkey] + modifier.Sausage.SausageMeat;
-                alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
+                sausageValue = parseInt(ingredients.Meat[rndkey]) + parseInt(modifier.Sausage.SausageMeat);
+                message = `Wurst aus ${Object.keys(ingredients.Meat)[rnd]} (${ingredients.Meat[rndkey]}+${modifier.Sausage.SausageMeat}) ${sausageValue}</br>`;
+                alert(message);
             }
             sum += rnd;
         for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
