@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        </style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 JSONmodifier = '{"Meat": {"Whole": "0", "Fried": "1", "Roasted": "4", "Diced": "16", "Minced": "32"}, "Herb": {"Chopped": "16", "Ground": "16", "Steamed": "5"}, "Dough": {"Rye": "3", "Oat": "4", "Barley": "5", "Wheat": "6"}, "Sausage":{"SausageMeat": "132", "SausageVeg": "76"}, "Veg": {"Jam": "28", "Mashed": "32", "Cooked": "7", "Fresh": "128", "Redwine(Vinegar)": "107"}}';
@@ -44,10 +49,11 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         var valueNumberOfIngredients = Number(ddlNumberOfIngredientsElement.value);
         var valueNumberOfSausages = Number(ddlNumberOfSausagesElement.value);
         setupcombination =  `Setup: ${valueSetup} Rarity: ${valueSetupRarity}</br>UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>Number of Ingredients: ${valueNumberOfIngredients}<br>Number of sausages: ${valueNumberOfSausages}`;
-    
-        document.getElementById("Psetupcombination").innerHTML = setupcombination;
+        
+        addToConfigLog(setupcombination+"</br>");
+        addToRecipe("</br>Rezept:</br>");
         var sum = -1;
-        var final_ingredients = '';
+        var message = '';
         do {
 
         for (let index_sausage = 0; index_sausage < valueNumberOfSausages; index_sausage++) {
@@ -61,24 +67,34 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 //alert(rndkey); "Sausage":{"SausageMeat": "132", "SausageVeg": "76"},
                 //alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
                 sausageValue = parseInt(ingredients.Meat[rndkey]) + parseInt(modifier.Sausage.SausageMeat);
-                message = `Wurst aus ${Object.keys(ingredients.Meat)[rnd]} (${ingredients.Meat[rndkey]}+${modifier.Sausage.SausageMeat}) ${sausageValue}</br>`;
-                alert(message);
+                message += `Wurst aus ${Object.keys(ingredients.Meat)[rnd]} (${ingredients.Meat[rndkey]}+${modifier.Sausage.SausageMeat}) ${sausageValue}</br>`;
+                //alert(message);
             } else {
                 var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
                 var rndkey = Object.keys(ingredients.Veggie)[rnd];
                 sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
-                message = `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
-                alert(message);
+                message += `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
+                //alert(message);
             }
+            addToRecipe(message);
             sum += rnd;
         for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
-
+                
             } 
-            
+        //Dough
+        //Passata    
         }
         } while(sum<=-1);
     }
     
+    function addToRecipe(text){
+        document.getElementById("Precipe").innerHTML += text;
+    }
+
+    function addToConfigLog(text){
+        document.getElementById("Psetupcombination").innerHTML += text;
+    }
+ 
     
     </script>
 
@@ -135,7 +151,12 @@ $.each(result, function(k, v) {
     <select id="ddlSetupRarity">
     </select>
 -->
-Default Meal: Oven (+40), FryingPan (+75), Horse whole (+23), pumpkin whole(+45)</br>
+<table>
+<tr><td>Default Meal: Oven (+40), FryingPan (+75),</br>Horse whole (+23), pumpkin whole(+45)</td>
+    <td>Config</td>
+</tr>
+<tr>
+<td>   
 Start Affinity:
 <select id='ddlUserAffinity'>
         <option value="109">Aggressive Fighting</option>
@@ -466,8 +487,24 @@ Setup:
 <select id="ddlSetup">
 </select>
 <select id="ddlSetupRarity">
-</select> </br>
+</select>
+
 <button onclick="createPizza()">Pizza!</button>
-<p id='Psetupcombination'></p>
+</td> 
+<!--Config--->
+<td>
+
+
+</td>
+</tr>
+<tr>
+<td><p id='Precipe'></p></td> 
+<td><p id='Psetupcombination'></p>
+</td>
+
+
+   
+</tr>
+</table>
 </body>
 </html> 
