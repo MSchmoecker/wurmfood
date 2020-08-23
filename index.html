@@ -48,7 +48,13 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         var valueGoalAffinity = Number(ddlGoalAffinityElement.value);
         var valueNumberOfIngredients = Number(ddlNumberOfIngredientsElement.value);
         var valueNumberOfSausages = Number(ddlNumberOfSausagesElement.value);
-        setupcombination =  `Setup: ${valueSetup} Rarity: ${valueSetupRarity}</br>UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>Number of Ingredients: ${valueNumberOfIngredients}<br>Number of sausages: ${valueNumberOfSausages}`;
+        setupcombination =     `Setup: ${valueSetup} 
+                                Rarity: ${valueSetupRarity}</br>
+                                UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>
+                                Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>
+                                Number of Ingredients:${valueNumberOfIngredients}<br>
+                                Number of sausages: ${valueNumberOfSausages}<br>
+                                Nuts: ${document.getElementById('checkNuts').checked}`;
         
         // GET INGREDIENTS CONFIG
         
@@ -80,14 +86,14 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
             } else {
 
             }
-            sum += rnd;
+            sum += sausageValue;
         for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
                 
             } 
         //Dough
         //Passata    
         }
-        } while(sum<=-1);
+        } while(sum%modulovalue!=targetvalue);
         /*addToConfigLog(setupcombination+"</br>");
         addRecipe("Rezept:</br>");
         addRecipe(message);*/
@@ -511,6 +517,8 @@ Setup:
 <td>
 <!--Config Ingredients--->
 
+<input id='checkNuts' type="checkbox" checked="unchecked" />
+<label for="checkNuts">Do you have nuts?</label>       
 <!-- END of CONFIG-->
 </td>
 </tr>
