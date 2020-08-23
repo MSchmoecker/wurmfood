@@ -60,10 +60,11 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         
 
         // END INGREDIENTS CONFIG
-        var sum = -1;
-        var message = '';
+        
+        var sum = 0;
+        targetvalue = valueGoalAffinity;
         do {
-
+        var message = '';
         for (let index_sausage = 0; index_sausage < valueNumberOfSausages; index_sausage++) {
             //ToDO Implement check if veg oder meat currently only meat
             sausage_meat = true;
@@ -82,18 +83,19 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 var rndkey = Object.keys(ingredients.Veggie)[rnd];
                 sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
                 message += `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
-                //alert(message);
+               
             } else {
 
             }
             sum += sausageValue;
-        for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
+            for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
                 
             } 
         //Dough
         //Passata    
         }
-        } while(sum%modulovalue!=targetvalue);
+       
+        } while((sum%modulovalue)!=targetvalue);
         /*addToConfigLog(setupcombination+"</br>");
         addRecipe("Rezept:</br>");
         addRecipe(message);*/
