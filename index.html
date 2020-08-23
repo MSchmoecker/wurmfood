@@ -13,6 +13,7 @@ JSONsetup = '{"Oven": "40", "Campfire": "37", "Forge": "42"}';
 JSONsetuprarity = '{"Normal": "0", "Rare": "1", "Supreme": "2", "Fantastic": "3"}';
 JSONContainere = '{"Container": {"*PlateOldSystem": "69", "Bakingstone": "63", "CakeTin": "62", "Cauldron": "75", "FryingPan": "75", "MushroomContainer": "119", "OpenHelm": "11", "PieDish": "61", "Plate": "69", "PotteryBowl": "77", "RoastingDish": "65", "SaucePan": "74", "SausageSkin": "132"}}';
 JSONAffinities = '{109: "Aggressive Fighting", 25: "Alchemy", 130: "Animal Husbandry", 129: "Animal Taming", 120: "Archaeology", 16: "Archery", 22: "Armour Smithing", 11: "Axes", 62: "Baking", 135: "Ballistae", 63: "Beverages", 59: "Blacksmithing", 54: "Blades Smithing", 1: "Body", 3: "Body Control", 4: "Body Stamina", 5: "Body Strength", 122: "Botanizing", 103: "Bowyery", 77: "Butchering", 73: "Butchering Knife", 78: "Carpentry", 72: "Carving Knife", 128: "Catapults", 56: "Chain Armour Smithing", 118: "Channeling", 123: "Climbing", 52: "Cloth Tailoring", 14: "Clubs", 97: "Coal-Making", 19: "Cooking", 60: "Dairy Food Making", 110: "Defensive Fighting", 44: "Digging", 119: "Exorcism", 33: "Farming", 28: "Fighting", 102: "Fine Carpentry", 79: "Firemaking", 112: "First Aid", 94: "Fishing", 104: "Fletching", 121: "Foraging", 38: "Forestry", 36: "Gardening", 70: "Halberd", 91: "Hammer", 15: "Hammers", 50: "Hatchet", 29: "Healing", 61: "Hot Food Cooking", 88: "Huge Axe", 75: "Huge Club", 101: "Jewelry Smithing", 12: "Knives", 87: "Large Axe", 65: "Large Maul", 85: "Large Metal Shield", 83: "Large Wooden Shield", 51: "Leather working", 125: "Lock Picking", 95: "Locksmithing", 132: "Long Bow", 69: "Long Spear", 64: "Longsword", 53: "Masonry", 13: "Mauls", 37: "Meditating", 133: "Medium Bow", 66: "Medium Maul", 86: "Medium Metal Shield", 82: "Medium Wooden Shield", 99: "Metallurgy", 115: "Milking", 98: "Milling", 0: "Mind", 6: "Mind Logic", 7: "Mind Speed", 43: "Mining", 23: "Misc Items", 100: "Natural Substances", 26: "Nature", 111: "Normal Fighting", 34: "Papyrusmaking", 92: "Paving", 45: "Pick axe", 57: "Plate Armour Smithing", 17: "Polearms", 47: "Pottery", 117: "Praying", 116: "Preaching", 93: "Prospecting", 106: "Puppeteering", 39: "Rake", 30: "Religion", 96: "Repairing", 137: "Restoration", 48: "Ropemaking", 76: "Saw", 40: "Scythe", 114: "Shield Bashing", 58: "Shield Smithing", 24: "Shields", 134: "Ship Building", 131: "Short Bow", 89: "Shortsword", 46: "Shovel", 41: "Sickle", 42: "Small Axe", 67: "Small Maul", 84: "Small Metal Shield", 81: "Small Wooden Shield", 20: "Smithing", 2: "Soul", 8: "Soul Depth", 9: "Soul Strength", 71: "Staff", 126: "Stealing", 74: "Stone Chisel", 124: "Stone Cutting", 10: "Swords", 18: "Tailoring", 113: "Taunting", 35: "Thatching", 31: "Thievery", 107: "Toy Making", 27: "Toys", 80: "Tracking", 127: "Traps", 136: "Trebuchets", 90: "Two Handed Sword", 32: "War Machines", 68: "Warhammer", 55: "Weapon Heads Smithing", 21: "Weapon Smithing", 108: "Weaponless Fighting", 49: "Woodcutting", 105: "Yoyo"}';
+
 const setup = JSON.parse(JSONsetup);
 const setup_rarity = JSON.parse(JSONsetuprarity);
 const ingredients = JSON.parse(JSONIngredients);
@@ -25,7 +26,8 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
 
     function createPizza(){
         const modulovalue = 138;
-        const defaultmeal = 183; //Oven 40, fryin pan 75, horse 23, pumpkin
+        const defaultmeal = 183;
+        const defaultaffinity = 183%modulovalue; //Oven 40, fryin pan 75, horse 23, pumpkin
         //const json = '{"result":true, "count":42}';
         //const obj = JSON.parse(json);
         var ddlSetupElement =  document.getElementById("ddlSetup");
@@ -46,25 +48,33 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         var valueSetupRarity = Number(ddlSetupRarityElement.value);
         var valueUserAffinity = Number(ddlUserAffinityElement.value);
         var valueGoalAffinity = Number(ddlGoalAffinityElement.value);
-        var valueNumberOfIngredients = Number(ddlNumberOfIngredientsElement.value);
+        var valueNumberOfAdditionalIngredients = Number(ddlNumberOfIngredientsElement.value);
         var valueNumberOfSausages = Number(ddlNumberOfSausagesElement.value);
+        var valueNuts = document.getElementById('checkNuts').checked;
         setupcombination =     `Setup: ${valueSetup} 
                                 Rarity: ${valueSetupRarity}</br>
                                 UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>
                                 Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>
-                                Number of Ingredients:${valueNumberOfIngredients}<br>
+                                Number of Ingredients:${valueNumberOfAdditionalIngredients}<br>
                                 Number of sausages: ${valueNumberOfSausages}<br>
-                                Nuts: ${document.getElementById('checkNuts').checked}`;
+                                Nuts: ${valueNuts}`;
         
         // GET INGREDIENTS CONFIG
         
 
         // END INGREDIENTS CONFIG
         
+        
         var sum = 0;
+        var bla = 0;
         targetvalue = valueGoalAffinity;
+        gap = 0;
+        done=false;
         do {
         var message = '';
+        var rnd = 0;
+        
+        //Add Sausage
         for (let index_sausage = 0; index_sausage < valueNumberOfSausages; index_sausage++) {
             //ToDO Implement check if veg oder meat currently only meat
             sausage_meat = true;
@@ -76,26 +86,133 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 //alert(rndkey); "Sausage":{"SausageMeat": "132", "SausageVeg": "76"},
                 //alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
                 sausageValue = parseInt(ingredients.Meat[rndkey]) + parseInt(modifier.Sausage.SausageMeat);
-                message += `Wurst aus ${Object.keys(ingredients.Meat)[rnd]} (${ingredients.Meat[rndkey]}+${modifier.Sausage.SausageMeat}) ${sausageValue}</br>`;
+                message += `Sausage ${Object.keys(ingredients.Meat)[rnd]} ${sausageValue}</br>`;
                 //alert(message);
             } else if(sausage_veggie) {
                 var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
                 var rndkey = Object.keys(ingredients.Veggie)[rnd];
                 sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
-                message += `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
+                message += `Sausage ${Object.keys(ingredients.Veggie)[rnd]} ${sausageValue}</br>`;
                
             } else {
 
             }
             sum += sausageValue;
-            for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
-                
-            } 
-        //Dough
-        //Passata    
         }
-       
-        } while((sum%modulovalue)!=targetvalue);
+        //valueNumberOfAdditionalIngredients - valueNumberOfSausages;
+        //add cheese, bacon, ground sipce and sausage.
+        
+        //add cheese 
+        rnd = Math.floor((Math.random() * Object.keys(ingredients.Cheese).length) + 1)-1; //number between 0 and 137
+        rndkey = Object.keys(ingredients.Cheese)[rnd];
+        sum += parseInt(ingredients.Cheese[rndkey]);  
+        message += 'Cheese: '+rndkey+' '+parseInt(ingredients.Cheese[rndkey])+"<br>"; 
+        //valueNumberOfAdditionalIngredients--;
+
+        //add bacon Other
+        sum += parseInt(ingredients.Other['Bacon']);  
+        message += 'Bacon '+parseInt(ingredients.Other['Bacon'])+"<br>"; 
+        //valueNumberOfAdditionalIngredients--;
+
+
+        //add sipce + modificator (herb)
+        rnd = Math.floor((Math.random() * Object.keys(ingredients.Spice).length) + 1)-1; //number between 0 and 137
+        rndkey = Object.keys(ingredients.Spice)[rnd];
+        rnd_mod = Math.floor((Math.random() * Object.keys(modifier.Herb).length) + 1)-1;
+        key_mod = 'Ground';//Object.keys(modifier.Herb)[rnd_mod];
+        basevalue = parseInt(ingredients.Spice[rndkey]);
+        modvalue = parseInt(modifier.Herb[key_mod]);
+        sum += basevalue+modvalue;
+        message += `Spice: ${rndkey} ${key_mod} ${basevalue+modvalue}</br>`; 
+        //valueNumberOfAdditionalIngredients--;
+
+        //add Passata
+        sum += parseInt(ingredients.Other['Passata']);  
+        message += 'Passata '+parseInt(ingredients.Other['Passata'])+"<br>"; 
+        
+
+        //add  dough(bread) mod(dough) 
+        rnd_mod = Math.floor((Math.random() * Object.keys(modifier.Dough).length) + 1)-1;
+        key_mod = Object.keys(modifier.Dough)[rnd_mod];
+        value = parseInt(ingredients.Bread['Dough'])+ parseInt(modifier.Dough[key_mod]);
+        sum += value; 
+        message += `Dough: ${key_mod} ${value}</br>`;
+
+
+        //add one meat
+        rnd = Math.floor((Math.random() * Object.keys(ingredients.Meat).length) + 1)-1;
+        key = Object.keys(ingredients.Meat)[rnd];
+        rnd_mod = Math.floor((Math.random() * Object.keys(modifier.Meat).length) + 1)-1;
+        key_mod = Object.keys(modifier.Meat)[rnd_mod];
+
+        value = parseInt(ingredients.Meat[key])+ parseInt(modifier.Meat[key_mod]);
+        sum += value; 
+        message += `Meat: ${key} ${key_mod} ${value}</br>`
+
+
+        /*var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
+        var rndkey = Object.keys(ingredients.Veggie)[rnd];
+        sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
+        message += `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
+        */
+        // KeysMeat,'Fish','Veggie','Herb','Spice','Nut',Berry,Grain,'Cheese','Other'
+        // dough, passata, meat (3 required ingredients for Fullhouse Pizza), cheese, bacon, ground sipce and sausage.
+        //Dough
+        //Passata
+        sum_backup = sum;
+
+        groups = new Array();
+        groups.push('Meat');
+        groups.push('Fish');
+        groups.push('Veggie');
+        groups.push('Spice'); 
+        if (valueNuts == true) {
+        groups.push('Nut');
+        }
+        //groups.push('Cheese');
+        groups.push('Other');
+        while(sum%modulovalue!=targetvalue){
+            sum = sum_backup;
+            for (let index = 0; index < valueNumberOfAdditionalIngredients; index++) {
+                item = groups[Math.floor(Math.random() * groups.length)];
+                if (item=='Other'){
+                    key = 'Fries';
+                    key_mod = 'Fried';                                    
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier.Meat[key_mod]);
+                } else if(item=='Spice'){
+                    rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
+                    key = Object.keys(ingredients[item])[rnd];
+                    key_mod ='Ground';
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier['Herb'][key_mod]);
+                } else if(item=='Veggie'){
+                    rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
+                    key = Object.keys(ingredients[item])[rnd];
+                    key_mod ='Chopped';
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier['Veg'][key_mod]);
+                } else {
+                    rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
+                    key = Object.keys(ingredients[item])[rnd];
+                if(item=='Fish') {      
+                    value = parseInt(ingredients.Fish[key]);
+                } else {
+                rnd_mod = Math.floor((Math.random() * Object.keys(modifier[item]).length) + 1)-1;
+                key_mod = Object.keys(modifier[item])[rnd_mod];                
+                value = parseInt(ingredients[item][key])+ parseInt(modifier[item][key_mod]);
+                }
+                }        
+                sum += value;
+                
+                
+            }
+        }
+
+
+        calc = (sum%modulovalue);
+        calc_key = (Object.keys(affinites)[calc]);
+        calc_affinity = affinites[calc_key];
+        done = true;
+        message += '<br>'+calc_affinity+"_"+calc_key;
+        } while(done!=true);
         /*addToConfigLog(setupcombination+"</br>");
         addRecipe("Rezept:</br>");
         addRecipe(message);*/
@@ -112,7 +229,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
     
     function addRow(textcell1,textcell2){
         var tbody = document.getElementById('pizzatbody');
-        row = tbody.insertRow();
+        row = tbody.insertRow(2);
         cell = row.insertCell();
         cell.innerHTML = textcell1;
         cell = row.insertCell();
