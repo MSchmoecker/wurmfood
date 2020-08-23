@@ -63,6 +63,12 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 sausageValue = parseInt(ingredients.Meat[rndkey]) + parseInt(modifier.Sausage.SausageMeat);
                 message = `Wurst aus ${Object.keys(ingredients.Meat)[rnd]} (${ingredients.Meat[rndkey]}+${modifier.Sausage.SausageMeat}) ${sausageValue}</br>`;
                 alert(message);
+            } else {
+                var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
+                var rndkey = Object.keys(ingredients.Veggie)[rnd];
+                sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
+                message = `Wurst aus ${Object.keys(ingredients.Veggie)[rnd]} (${ingredients.Veggie[rndkey]}+${modifier.Sausage.SausageVeg}) ${sausageValue}</br>`;
+                alert(message);
             }
             sum += rnd;
         for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
