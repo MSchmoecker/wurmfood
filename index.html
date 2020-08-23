@@ -232,7 +232,11 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 }
                 }
                 sum += value;
-                temp_message.push([item,key,key_mod,value]);
+                if(item=='Other') {
+                    temp_message.push([key,key_mod,value]);
+                } else {
+                    temp_message.push([item,key,key_mod,value]);
+                }
                 //message += `${item}: ${key} ${key_mod} ${value}</br>`;       
                 
             }
