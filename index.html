@@ -23,7 +23,17 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
 </script>
 
 <script>
+    function arrayUnique(array) {
+        var a = array.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
 
+        return a;
+    }
     function createPizza(){
         const modulovalue = 138;
         const defaultmeal = 183;
@@ -70,8 +80,8 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         targetvalue = valueGoalAffinity;
         gap = 0;
         done=false;
-        do {
-        var message = '';
+        var message = [];
+        do {        
         var rnd = 0;
         
         //Add Sausage
@@ -86,13 +96,16 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 //alert(rndkey); "Sausage":{"SausageMeat": "132", "SausageVeg": "76"},
                 //alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
                 sausageValue = parseInt(ingredients.Meat[rndkey]) + parseInt(modifier.Sausage.SausageMeat);
-                message += `Sausage ${Object.keys(ingredients.Meat)[rnd]} ${sausageValue}</br>`;
+                //message += `Sausage ${Object.keys(ingredients.Meat)[rnd]} ${sausageValue}</br>`;
+                message.push(['Sausage',Object.keys(ingredients.Meat)[rnd],sausageValue]);
                 //alert(message);
             } else if(sausage_veggie) {
                 var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
                 var rndkey = Object.keys(ingredients.Veggie)[rnd];
                 sausageValue = parseInt(ingredients.Veggie[rndkey]) + parseInt(modifier.Sausage.SausageVeg);
-                message += `Sausage ${Object.keys(ingredients.Veggie)[rnd]} ${sausageValue}</br>`;
+                
+                message.push(['Sausage',Object.keys(ingredients.Veggie)[rnd],sausageValue]);
+                //message += `Sausage ${Object.keys(ingredients.Veggie)[rnd]} ${sausageValue}</br>`;
                
             } else {
 
@@ -105,13 +118,18 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         //add cheese 
         rnd = Math.floor((Math.random() * Object.keys(ingredients.Cheese).length) + 1)-1; //number between 0 and 137
         rndkey = Object.keys(ingredients.Cheese)[rnd];
-        sum += parseInt(ingredients.Cheese[rndkey]);  
-        message += 'Cheese: '+rndkey+' '+parseInt(ingredients.Cheese[rndkey])+"<br>"; 
+        value = parseInt(ingredients.Cheese[rndkey])
+        sum += value;
+        message.push([rndkey,value]);
+        //message += 'Cheese: '+rndkey+' '+parseInt(ingredients.Cheese[rndkey])+"<br>"; 
         //valueNumberOfAdditionalIngredients--;
 
         //add bacon Other
-        sum += parseInt(ingredients.Other['Bacon']);  
-        message += 'Bacon '+parseInt(ingredients.Other['Bacon'])+"<br>"; 
+        value = parseInt(ingredients.Other['Bacon'])
+        sum += value;
+        
+        message.push(['Bacon','raw',value]);
+        //message += 'Bacon '+parseInt(ingredients.Other['Bacon'])+"<br>"; 
         //valueNumberOfAdditionalIngredients--;
 
 
@@ -122,13 +140,17 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         key_mod = 'Ground';//Object.keys(modifier.Herb)[rnd_mod];
         basevalue = parseInt(ingredients.Spice[rndkey]);
         modvalue = parseInt(modifier.Herb[key_mod]);
-        sum += basevalue+modvalue;
-        message += `Spice: ${rndkey} ${key_mod} ${basevalue+modvalue}</br>`; 
+        value = basevalue+modvalue
+        sum += value;
+        message.push([rndkey,key_mod,value]);
+        
+        //message += `Spice: ${rndkey} ${key_mod} ${basevalue+modvalue}</br>`;  
         //valueNumberOfAdditionalIngredients--;
 
         //add Passata
         sum += parseInt(ingredients.Other['Passata']);  
-        message += 'Passata '+parseInt(ingredients.Other['Passata'])+"<br>"; 
+        message.push(['Passata',parseInt(ingredients.Other['Passata'])])
+        //message += 'Passata '+parseInt(ingredients.Other['Passata'])+"<br>"; 
         
 
         //add  dough(bread) mod(dough) 
@@ -136,8 +158,8 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         key_mod = Object.keys(modifier.Dough)[rnd_mod];
         value = parseInt(ingredients.Bread['Dough'])+ parseInt(modifier.Dough[key_mod]);
         sum += value; 
-        message += `Dough: ${key_mod} ${value}</br>`;
-
+        message.push(['Dough',key_mod,value]);
+        //message += `Dough: ${key_mod} ${value}</br>`;
 
         //add one meat
         rnd = Math.floor((Math.random() * Object.keys(ingredients.Meat).length) + 1)-1;
@@ -147,8 +169,8 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
 
         value = parseInt(ingredients.Meat[key])+ parseInt(modifier.Meat[key_mod]);
         sum += value; 
-        message += `Meat: ${key} ${key_mod} ${value}</br>`
-
+        //message += `Meat: ${key} ${key_mod} ${value}</br>`
+        message.push(['Meat',key,key_mod,value]);
 
         /*var rnd = Math.floor((Math.random() * Object.keys(ingredients.Veggie).length) + 1)-1; //number between 0 and 137
         var rndkey = Object.keys(ingredients.Veggie)[rnd];
@@ -159,7 +181,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         // dough, passata, meat (3 required ingredients for Fullhouse Pizza), cheese, bacon, ground sipce and sausage.
         //Dough
         //Passata
-        sum_backup = sum;
+      
 
         groups = new Array();
         groups.push('Meat');
@@ -171,15 +193,23 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         }
         //groups.push('Cheese');
         groups.push('Other');
+        sum_backup = sum;
         while(sum%modulovalue!=targetvalue){
             sum = sum_backup;
+            var temp_message= [];
             for (let index = 0; index < valueNumberOfAdditionalIngredients; index++) {
                 item = groups[Math.floor(Math.random() * groups.length)];
                 if (item=='Other'){
                     key = 'Fries';
-                    key_mod = 'Fried';                                    
-                    value = parseInt(ingredients[item][key])+ parseInt(modifier.Meat[key_mod]);
-                } else if(item=='Spice'){
+                    key_mod = 'Cooked';                                    
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier.Veg[key_mod]);
+                } else if(item=='Nut'){
+                    rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
+                    key = Object.keys(ingredients['Nut'])[rnd];
+                    key_mod = 'Whole'; 
+                    value = parseInt(ingredients[item][key]);                    
+                }
+                 else if(item=='Spice'){
                     rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
                     key = Object.keys(ingredients[item])[rnd];
                     key_mod ='Ground';
@@ -192,31 +222,36 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                 } else {
                     rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
                     key = Object.keys(ingredients[item])[rnd];
-                if(item=='Fish') {      
+                if(item=='Fish') {     
+                    key_mod = 'whole'; 
                     value = parseInt(ingredients.Fish[key]);
                 } else {
-                rnd_mod = Math.floor((Math.random() * Object.keys(modifier[item]).length) + 1)-1;
-                key_mod = Object.keys(modifier[item])[rnd_mod];                
-                value = parseInt(ingredients[item][key])+ parseInt(modifier[item][key_mod]);
+                    rnd_mod = Math.floor((Math.random() * Object.keys(modifier[item]).length) + 1)-1;
+                    key_mod = Object.keys(modifier[item])[rnd_mod];                
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier[item][key_mod]);
                 }
-                }        
+                }
                 sum += value;
-                
+                temp_message.push([item,key,key_mod,value]);
+                //message += `${item}: ${key} ${key_mod} ${value}</br>`;       
                 
             }
         }
-
-
+        //alert(temp_message);
+        var new_message = message.concat(temp_message);//   .concat(temp_message);
+        done = true;
         calc = (sum%modulovalue);
         calc_key = (Object.keys(affinites)[calc]);
         calc_affinity = affinites[calc_key];
-        done = true;
-        message += '<br>'+calc_affinity+"_"+calc_key;
+        
+        new_message.push([calc_affinity,calc_key]);
+        //message += '<br>'+calc_affinity+"_"+calc_key;
         } while(done!=true);
         /*addToConfigLog(setupcombination+"</br>");
         addRecipe("Rezept:</br>");
         addRecipe(message);*/
-        addRow(message,setupcombination)
+
+        addRow(new_message,setupcombination)
     }
     
     function addRecipe(text){
@@ -227,10 +262,22 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         document.getElementById("Psetupcombination").innerHTML += text;
     }
     
-    function addRow(textcell1,textcell2){
+    function addRow(alist,textcell2){
         var tbody = document.getElementById('pizzatbody');
         row = tbody.insertRow(2);
         cell = row.insertCell();
+        
+        alist.sort();
+        textcell1 = '';
+        alist.forEach(element => {
+            for (let index = 0; index < element.length; index++) {
+                textcell1 += element[index]+" ";                
+            }
+
+            textcell1 += "<br>";
+        });{
+            
+        }
         cell.innerHTML = textcell1;
         cell = row.insertCell();
         cell.innerHTML = textcell2;
@@ -652,5 +699,6 @@ Setup:
 </tr>-->
 </tbody>
 </table>
+<p id='Bla'></p>
 </body>
 </html> 
