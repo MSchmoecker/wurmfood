@@ -1,0 +1,10 @@
+<select class="form-control p-b-10" name="cooker" id="cooker" title="cooker" onchange="update()">
+                              <optgroup label="Container_rarity">                                         <option value="1">Nothing
+                                        +0</option>
+                                                                    <option value="2">Campfire
+                                        +37</option>
+                                                                    <option value="3">Forge
+                                        +42</option>
+                                                                    <option value="4">Oven
+                                        +40</option>
+                                                          </optgroup>  </select>

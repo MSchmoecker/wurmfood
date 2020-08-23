@@ -1,0 +1,1 @@
+JSONmodifier = '{"Meat": {"Whole": "0", "Fried": "1", "Roasted": "4", "Diced": "16", "Minced": "32"}, "Herb": {"Chopped": "16", "Ground": "16", "Steamed": "5"}, "Dough": {"Rye": "3", "Oat": "4", "Barley": "5", "Wheat": "6"}, "Sausage":{"SausageMeat": "132", "SausageVeg": "76"}, "Veg": {"Jam": "28", "Mashed": "32", "Cooked": "7", "Fresh": "128", "Redwine(Vinegar)": "107"}}';

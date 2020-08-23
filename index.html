@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+JSONmodifier = '{"Meat": {"Whole": "0", "Fried": "1", "Roasted": "4", "Diced": "16", "Minced": "32"}, "Herb": {"Chopped": "16", "Ground": "16", "Steamed": "5"}, "Dough": {"Rye": "3", "Oat": "4", "Barley": "5", "Wheat": "6"}, "Sausage":{"SausageMeat": "132", "SausageVeg": "76"}, "Veg": {"Jam": "28", "Mashed": "32", "Cooked": "7", "Fresh": "128", "Redwine(Vinegar)": "107"}}';
+JSONIngredients = '{"Meat": {"Bear": "16", "Beef": "17", "Canine": "18", "Dragon": "20", "Feline": "19", "Fowl": "21", "Game": "22", "Horse": "23", "Human": "24", "Humanoid": "25", "Insect": "26", "Lamb": "27", "Pastry": "116", "Pork": "28", "Seafood": "29", "Snake": "30", "Tough": "31"}, "Fish": {"BrookTrout": "19", "Carp": "18", "Catfish": "14", "Dorado": "14", "Herring": "13", "Marlin": "9", "Octopus": "12", "Perch": "17", "Pike": "11", "Roach": "16", "Sailfish": "13", "SmallmouthBass": "12", "Snook": "15", "Tuna": "15", "WhiteShark": "11"}, "Veggie": {"Cabbage": "42", "Carrot": "41", "Corn": "44", "Cucumber": "17", "Lettuce": "45", "Onion": "91", "Pea": "58", "PeaPod": "46", "Potato": "47", "Pumpkin": "45", "Rice": "68", "Tomato": "43"}, "Herb": {"Basil": "95", "Belladonna": "97", "Fennel": "39", "Garlic": "92", "Lovage": "89", "Mint": "38", "Nettles": "101", "Oregano": "93", "Parsley": "94", "Rosemary": "99", "Sage": "90", "Sassafras": "102", "Thyme": "96"}, "Spice": {"Cumin": "48", "FennelSeed": "59", "Ginger": "49", "Nutmeg": "50", "Paprika": "51", "Turmeric": "52"}, "Nut": {"Chestnut": "17", "Hazelnuts": "8", "Pinenut": "92", "Walnut": "16"}, "Berry": {"Blueberry": "100", "Cherries": "7", "Lingonberry": "103", "Raspberries": "104", "Strawberries": "98"}, "Grain": {"Barley": "23", "Cornflour": "128", "Oat": "25", "Rye": "23", "Wheat": "25"}, "Cheese": {"BuffaloCheese": "87", "Cheese": "84", "FetaCheese": "86", "GoatCheese": "85"}, "Fruit": {"BlueGrapes": "9", "GreenApple": "18", "GreenGrapes": "12", "Lemon": "8", "Olives": "10", "Orange": "53", "Pineapple": "5"}, "Other": {"Bacon": "79", "BlackMushroom": "121", "BlueMushroom": "124", "BrownMushroom": "122", "CocoaBean": "63", "Cornoil": "5", "CottonSeedOil": "121", "Crisps": "133", "Egg": "68", "Fries": "111", "Gravy": "106", "GreenMushroom": "120", "Haggis": "127", "Honey": "89", "MapleSap": "18", "MapleSyrup": "17", "Oliveoil": "20", "Passata": "114", "Pesto": "117", "RedMushroom": "125", "Salt": "99", "Sugar": "47", "Vinegar": "22", "Water": "6", "YellowMushroom": "123"}, "Bread": {"Batter": "82", "Bread": "127", "Dough": "52", "SlicedBread": "130"}}';
+JSONsetup = '{"Oven": "40", "Campfire": "37", "Forge": "42"}';
+JSONsetuprarity = '{"Normal": "0", "Rare": "1", "Supreme": "2", "Fantastic": "3"}';
+JSONContainere = '{"Container": {"*PlateOldSystem": "69", "Bakingstone": "63", "CakeTin": "62", "Cauldron": "75", "FryingPan": "75", "MushroomContainer": "119", "OpenHelm": "11", "PieDish": "61", "Plate": "69", "PotteryBowl": "77", "RoastingDish": "65", "SaucePan": "74", "SausageSkin": "132"}}';
+JSONAffinities = '{109: "Aggressive Fighting", 25: "Alchemy", 130: "Animal Husbandry", 129: "Animal Taming", 120: "Archaeology", 16: "Archery", 22: "Armour Smithing", 11: "Axes", 62: "Baking", 135: "Ballistae", 63: "Beverages", 59: "Blacksmithing", 54: "Blades Smithing", 1: "Body", 3: "Body Control", 4: "Body Stamina", 5: "Body Strength", 122: "Botanizing", 103: "Bowyery", 77: "Butchering", 73: "Butchering Knife", 78: "Carpentry", 72: "Carving Knife", 128: "Catapults", 56: "Chain Armour Smithing", 118: "Channeling", 123: "Climbing", 52: "Cloth Tailoring", 14: "Clubs", 97: "Coal-Making", 19: "Cooking", 60: "Dairy Food Making", 110: "Defensive Fighting", 44: "Digging", 119: "Exorcism", 33: "Farming", 28: "Fighting", 102: "Fine Carpentry", 79: "Firemaking", 112: "First Aid", 94: "Fishing", 104: "Fletching", 121: "Foraging", 38: "Forestry", 36: "Gardening", 70: "Halberd", 91: "Hammer", 15: "Hammers", 50: "Hatchet", 29: "Healing", 61: "Hot Food Cooking", 88: "Huge Axe", 75: "Huge Club", 101: "Jewelry Smithing", 12: "Knives", 87: "Large Axe", 65: "Large Maul", 85: "Large Metal Shield", 83: "Large Wooden Shield", 51: "Leather working", 125: "Lock Picking", 95: "Locksmithing", 132: "Long Bow", 69: "Long Spear", 64: "Longsword", 53: "Masonry", 13: "Mauls", 37: "Meditating", 133: "Medium Bow", 66: "Medium Maul", 86: "Medium Metal Shield", 82: "Medium Wooden Shield", 99: "Metallurgy", 115: "Milking", 98: "Milling", 0: "Mind", 6: "Mind Logic", 7: "Mind Speed", 43: "Mining", 23: "Misc Items", 100: "Natural Substances", 26: "Nature", 111: "Normal Fighting", 34: "Papyrusmaking", 92: "Paving", 45: "Pick axe", 57: "Plate Armour Smithing", 17: "Polearms", 47: "Pottery", 117: "Praying", 116: "Preaching", 93: "Prospecting", 106: "Puppeteering", 39: "Rake", 30: "Religion", 96: "Repairing", 137: "Restoration", 48: "Ropemaking", 76: "Saw", 40: "Scythe", 114: "Shield Bashing", 58: "Shield Smithing", 24: "Shields", 134: "Ship Building", 131: "Short Bow", 89: "Shortsword", 46: "Shovel", 41: "Sickle", 42: "Small Axe", 67: "Small Maul", 84: "Small Metal Shield", 81: "Small Wooden Shield", 20: "Smithing", 2: "Soul", 8: "Soul Depth", 9: "Soul Strength", 71: "Staff", 126: "Stealing", 74: "Stone Chisel", 124: "Stone Cutting", 10: "Swords", 18: "Tailoring", 113: "Taunting", 35: "Thatching", 31: "Thievery", 107: "Toy Making", 27: "Toys", 80: "Tracking", 127: "Traps", 136: "Trebuchets", 90: "Two Handed Sword", 32: "War Machines", 68: "Warhammer", 55: "Weapon Heads Smithing", 21: "Weapon Smithing", 108: "Weaponless Fighting", 49: "Woodcutting", 105: "Yoyo"}';
+const setup = JSON.parse(JSONsetup);
+const setup_rarity = JSON.parse(JSONsetuprarity);
+const ingredients = JSON.parse(JSONIngredients);
+const modifier = JSON.parse(JSONmodifier);
+const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body Strength', 'Mind Logic', 'Mind Speed', 'Soul Depth', 'Soul Strength', 'Swords', 'Axes', 'Knives', 'Mauls', 'Clubs', 'Hammers', 'Archery', 'Polearms', 'Tailoring', 'Cooking', 'Smithing', 'Weapon Smithing', 'Armour Smithing', 'Misc Items', 'Shields', 'Alchemy', 'Nature', 'Toys', 'Fighting', 'Healing', 'Religion', 'Thievery', 'War Machines', 'Farming', 'Papyrusmaking', 'Thatching', 'Gardening', 'Meditating', 'Forestry', 'Rake', 'Scythe', 'Sickle', 'Small Axe', 'Mining', 'Digging', 'Pick axe', 'Shovel', 'Pottery', 'Ropemaking', 'Woodcutting', 'Hatchet', 'Leather working', 'Cloth Tailoring', 'Masonry', 'Blades Smithing', 'Weapon Heads Smithing', 'Chain Armour Smithing', 'Plate Armour Smithing', 'Shield Smithing', 'Blacksmithing', 'Dairy Food Making', 'Hot Food Cooking', 'Baking', 'Beverages', 'Longsword', 'Large Maul', 'Medium Maul', 'Small Maul', 'Warhammer', 'Long Spear', 'Halberd', 'Staff', 'Carving Knife', 'Butchering Knife', 'Stone Chisel', 'Huge Club', 'Saw', 'Butchering', 'Carpentry', 'Firemaking', 'Tracking', 'Small Wooden Shield', 'Medium Wooden Shield', 'Large Wooden Shield', 'Small Metal Shield', 'Large Metal Shield', 'Medium Metal Shield', 'Large Axe', 'Huge Axe', 'Shortsword', 'Two Handed Sword', 'Hammer', 'Paving', 'Prospecting', 'Fishing', 'Locksmithing', 'Repairing', 'Coal-Making', 'Milling', 'Metallurgy', 'Natural Substances', 'Jewelry Smithing', 'Fine Carpentry', 'Bowyery', 'Fletching', 'Yoyo', 'Puppeteering', 'Toy Making', 'Weaponless Fighting', 'Aggressive Fighting', 'Defensive Fighting', 'Normal Fighting', 'First Aid', 'Taunting', 'Shield Bashing', 'Milking', 'Preaching', 'Praying', 'Channeling', 'Exorcism', 'Archaeology', 'Foraging', 'Botanizing', 'Climbing', 'Stone Cutting', 'Lock Picking', 'Stealing', 'Traps', 'Catapults', 'Animal Taming', 'Animal Husbandry', 'Short Bow', 'Long Bow', 'Medium Bow', 'Ship Building', 'Ballistae', 'Trebuchets', 'Restoration'];
+
+</script>
+
+<script>
+
+    function createPizza(){
+        const modulovalue = 138;
+        const defaultmeal = 183; //Oven 40, fryin pan 75, horse 23, pumpkin
+        //const json = '{"result":true, "count":42}';
+        //const obj = JSON.parse(json);
+        var ddlSetupElement =  document.getElementById("ddlSetup");
+        var ddlSetupRarityElement = document.getElementById("ddlSetupRarity");
+        var ddlUserAffinityElement =  document.getElementById("ddlUserAffinity");
+        var ddlGoalAffinityElement =  document.getElementById("ddlGoalAffinity");
+        var ddlNumberOfIngredientsElement =  document.getElementById("ddlNumberOfIngredients");
+        var ddlNumberOfSausagesElement =  document.getElementById("ddlNumberOfSausages");
+        
+        var ddlSetupElement = ddlSetupElement.options[ddlSetupElement.selectedIndex];
+        var ddlSetupRarityElement = ddlSetupRarityElement.options[ddlSetupRarityElement.selectedIndex];
+        var ddlUserAffinityElement = ddlUserAffinityElement.options[ddlUserAffinityElement.selectedIndex];
+        var ddlGoalAffinityElement = ddlGoalAffinityElement.options[ddlGoalAffinityElement.selectedIndex];
+        var ddlNumberOfIngredientsElement = ddlNumberOfIngredientsElement.options[ddlNumberOfIngredientsElement.selectedIndex];
+        var ddlNumberOfSausagesElement = ddlNumberOfSausagesElement.options[ddlNumberOfSausagesElement.selectedIndex];
+
+        var valueSetup = Number(ddlSetupElement.value);
+        var valueSetupRarity = Number(ddlSetupRarityElement.value);
+        var valueUserAffinity = Number(ddlUserAffinityElement.value);
+        var valueGoalAffinity = Number(ddlGoalAffinityElement.value);
+        var valueNumberOfIngredients = Number(ddlNumberOfIngredientsElement.value);
+        var valueNumberOfSausages = Number(ddlNumberOfSausagesElement.value);
+        setupcombination =  `Setup: ${valueSetup} Rarity: ${valueSetupRarity}</br>UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>Number of Ingredients: ${valueNumberOfIngredients}<br>Number of sausages: ${valueNumberOfSausages}`;
+    
+        document.getElementById("Psetupcombination").innerHTML = setupcombination;
+        var sum = -1;
+        var final_ingredients = '';
+        do {
+
+        for (let index_sausage = 0; index_sausage < valueNumberOfSausages; index_sausage++) {
+            //ToDO Implement check if veg oder meat currently only meat
+            meat = true;
+            if (meat){
+                var rnd = Math.floor((Math.random() * Object.keys(ingredients.Meat).length) + 1)-1; //number between 0 and 137
+                //alert(rnd);
+                //alert(Object.keys(ingredients.Meat));
+                var rndkey = Object.keys(ingredients.Meat)[rnd];
+                //alert(rndkey); "Sausage":{"SausageMeat": "132", "SausageVeg": "76"},
+                //alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
+                sausageValue = ingredients.Meat[rndkey] + modifier.Sausage.SausageMeat;
+                alert(Object.keys(ingredients.Meat)[rnd]+" +"+ingredients.Meat[rndkey] + " Wurst +" + modifier.Sausage.SausageMeat)
+            }
+            sum += rnd;
+        for (i = 0; i < valueNumberOfIngredients-valueNumberOfSausages; i++) {
+
+            } 
+            
+        }
+        } while(sum<=-1);
+    }
+    
+    
+    </script>
+
+<script type="text/javascript">
+function onLoad(){
+PopulateDropDownList();
+}
+function PopulateDropDownList() {
+
+var result = $.parseJSON(JSONsetup);
+var ddlSetup = $("#ddlSetup");
+
+$.each(result, function(k, v) {
+    //k is key v is value
+    //display the key and value pair
+    var option = $("<option />");
+
+    //Set Customer Name in Text part.
+    option.html(k);
+
+    //Set Customer CustomerId in Value part.
+    option.val(v);
+
+    //Add the Option element to DropDownList.
+    ddlSetup.append(option);
+ });
+var result = $.parseJSON(JSONsetuprarity);
+var ddlSetupRarity = $("#ddlSetupRarity");
+
+$.each(result, function(k, v) {
+    //k is key v is value
+    //display the key and value pair
+    var option = $("<option />");
+
+    //Set Customer Name in Text part.
+    option.html(k);
+
+    //Set Customer CustomerId in Value part.
+    option.val(v);
+
+    //Add the Option element to DropDownList.
+    ddlSetupRarity.append(option);
+ });
+}
+</script>
+
+<head>
+<title>Wurm Kochtool</title>
+</head>
+<body onload="onLoad()">
+<!--- Setup:
+    <select id="ddlSetup">
+    </select>
+    <select id="ddlSetupRarity">
+    </select>
+-->
+Default Meal: Oven (+40), FryingPan (+75), Horse whole (+23), pumpkin whole(+45)</br>
+Start Affinity:
+<select id='ddlUserAffinity'>
+        <option value="109">Aggressive Fighting</option>
+        <option value="25">Alchemy</option>
+        <option value="130">Animal Husbandry</option>
+        <option value="129">Animal Taming</option>
+        <option value="120">Archaeology</option>
+        <option value="16">Archery</option>
+        <option value="22">Armour Smithing</option>
+        <option value="11">Axes</option>
+        <option value="62">Baking</option>
+        <option value="135">Ballistae</option>
+        <option value="63">Beverages</option>
+        <option value="59">Blacksmithing</option>
+        <option value="54">Blades Smithing</option>
+        <option value="1">Body</option>
+        <option value="3">Body Control</option>
+        <option value="4">Body Stamina</option>
+        <option value="5">Body Strength</option>
+        <option value="122">Botanizing</option>
+        <option value="103">Bowyery</option>
+        <option value="77">Butchering</option>
+        <option value="73">Butchering Knife</option>
+        <option value="78">Carpentry</option>
+        <option value="72">Carving Knife</option>
+        <option value="128">Catapults</option>
+        <option value="56">Chain Armour Smithing</option>
+        <option value="118">Channeling</option>
+        <option value="123">Climbing</option>
+        <option value="52">Cloth Tailoring</option>
+        <option value="14">Clubs</option>
+        <option value="97">Coal-Making</option>
+        <option value="19">Cooking</option>
+        <option value="60">Dairy Food Making</option>
+        <option value="110">Defensive Fighting</option>
+        <option value="44">Digging</option>
+        <option value="119">Exorcism</option>
+        <option value="33">Farming</option>
+        <option value="28">Fighting</option>
+        <option value="102">Fine Carpentry</option>
+        <option value="79">Firemaking</option>
+        <option value="112">First Aid</option>
+        <option value="94">Fishing</option>
+        <option value="104">Fletching</option>
+        <option value="121">Foraging</option>
+        <option value="38">Forestry</option>
+        <option value="36">Gardening</option>
+        <option value="70">Halberd</option>
+        <option value="91">Hammer</option>
+        <option value="15">Hammers</option>
+        <option value="50">Hatchet</option>
+        <option value="29">Healing</option>
+        <option value="61">Hot Food Cooking</option>
+        <option value="88">Huge Axe</option>
+        <option value="75">Huge Club</option>
+        <option value="101">Jewelry Smithing</option>
+        <option value="12">Knives</option>
+        <option value="87">Large Axe</option>
+        <option value="65">Large Maul</option>
+        <option value="85">Large Metal Shield</option>
+        <option value="83">Large Wooden Shield</option>
+        <option value="51">Leather working</option>
+        <option value="125">Lock Picking</option>
+        <option value="95">Locksmithing</option>
+        <option value="132">Long Bow</option>
+        <option value="69">Long Spear</option>
+        <option value="64">Longsword</option>
+        <option value="53">Masonry</option>
+        <option value="13">Mauls</option>
+        <option value="37">Meditating</option>
+        <option value="133">Medium Bow</option>
+        <option value="66">Medium Maul</option>
+        <option value="86">Medium Metal Shield</option>
+        <option value="82">Medium Wooden Shield</option>
+        <option value="99">Metallurgy</option>
+        <option value="115">Milking</option>
+        <option value="98">Milling</option>
+        <option value="0">Mind</option>
+        <option value="6">Mind Logic</option>
+        <option value="7">Mind Speed</option>
+        <option value="43">Mining</option>
+        <option value="23">Misc Items</option>
+        <option value="100">Natural Substances</option>
+        <option value="26">Nature</option>
+        <option value="111">Normal Fighting</option>
+        <option value="34">Papyrusmaking</option>
+        <option value="92">Paving</option>
+        <option value="45">Pick axe</option>
+        <option value="57">Plate Armour Smithing</option>
+        <option value="17">Polearms</option>
+        <option value="47">Pottery</option>
+        <option value="117">Praying</option>
+        <option value="116">Preaching</option>
+        <option value="93">Prospecting</option>
+        <option value="106">Puppeteering</option>
+        <option value="39">Rake</option>
+        <option value="30">Religion</option>
+        <option value="96">Repairing</option>
+        <option value="137">Restoration</option>
+        <option value="48">Ropemaking</option>
+        <option value="76">Saw</option>
+        <option value="40">Scythe</option>
+        <option value="114">Shield Bashing</option>
+        <option value="58">Shield Smithing</option>
+        <option value="24">Shields</option>
+        <option value="134">Ship Building</option>
+        <option value="131">Short Bow</option>
+        <option value="89">Shortsword</option>
+        <option value="46">Shovel</option>
+        <option value="41">Sickle</option>
+        <option value="42">Small Axe</option>
+        <option value="67">Small Maul</option>
+        <option value="84">Small Metal Shield</option>
+        <option value="81">Small Wooden Shield</option>
+        <option value="20">Smithing</option>
+        <option value="2">Soul</option>
+        <option value="8">Soul Depth</option>
+        <option value="9">Soul Strength</option>
+        <option value="71">Staff</option>
+        <option value="126">Stealing</option>
+        <option value="74">Stone Chisel</option>
+        <option value="124">Stone Cutting</option>
+        <option value="10">Swords</option>
+        <option value="18">Tailoring</option>
+        <option value="113">Taunting</option>
+        <option value="35">Thatching</option>
+        <option value="31">Thievery</option>
+        <option value="107">Toy Making</option>
+        <option value="27">Toys</option>
+        <option value="80">Tracking</option>
+        <option value="127">Traps</option>
+        <option value="136">Trebuchets</option>
+        <option value="90">Two Handed Sword</option>
+        <option value="32">War Machines</option>
+        <option value="68">Warhammer</option>
+        <option value="55">Weapon Heads Smithing</option>
+        <option value="21">Weapon Smithing</option>
+        <option value="108">Weaponless Fighting</option>
+        <option value="49">Woodcutting</option>
+        <option value="105">Yoyo</option>
+
+</select></br>
+Goal Affinity:
+<select id='ddlGoalAffinity'>
+    <option value="109">Aggressive Fighting</option>
+    <option value="25">Alchemy</option>
+    <option value="130">Animal Husbandry</option>
+    <option value="129">Animal Taming</option>
+    <option value="120">Archaeology</option>
+    <option value="16">Archery</option>
+    <option value="22">Armour Smithing</option>
+    <option value="11">Axes</option>
+    <option value="62">Baking</option>
+    <option value="135">Ballistae</option>
+    <option value="63">Beverages</option>
+    <option value="59">Blacksmithing</option>
+    <option value="54">Blades Smithing</option>
+    <option value="1">Body</option>
+    <option value="3">Body Control</option>
+    <option value="4">Body Stamina</option>
+    <option value="5">Body Strength</option>
+    <option value="122">Botanizing</option>
+    <option value="103">Bowyery</option>
+    <option value="77">Butchering</option>
+    <option value="73">Butchering Knife</option>
+    <option value="78">Carpentry</option>
+    <option value="72">Carving Knife</option>
+    <option value="128">Catapults</option>
+    <option value="56">Chain Armour Smithing</option>
+    <option value="118">Channeling</option>
+    <option value="123">Climbing</option>
+    <option value="52">Cloth Tailoring</option>
+    <option value="14">Clubs</option>
+    <option value="97">Coal-Making</option>
+    <option value="19">Cooking</option>
+    <option value="60">Dairy Food Making</option>
+    <option value="110">Defensive Fighting</option>
+    <option value="44">Digging</option>
+    <option value="119">Exorcism</option>
+    <option value="33">Farming</option>
+    <option value="28">Fighting</option>
+    <option value="102">Fine Carpentry</option>
+    <option value="79">Firemaking</option>
+    <option value="112">First Aid</option>
+    <option value="94">Fishing</option>
+    <option value="104">Fletching</option>
+    <option value="121">Foraging</option>
+    <option value="38">Forestry</option>
+    <option value="36">Gardening</option>
+    <option value="70">Halberd</option>
+    <option value="91">Hammer</option>
+    <option value="15">Hammers</option>
+    <option value="50">Hatchet</option>
+    <option value="29">Healing</option>
+    <option value="61">Hot Food Cooking</option>
+    <option value="88">Huge Axe</option>
+    <option value="75">Huge Club</option>
+    <option value="101">Jewelry Smithing</option>
+    <option value="12">Knives</option>
+    <option value="87">Large Axe</option>
+    <option value="65">Large Maul</option>
+    <option value="85">Large Metal Shield</option>
+    <option value="83">Large Wooden Shield</option>
+    <option value="51">Leather working</option>
+    <option value="125">Lock Picking</option>
+    <option value="95">Locksmithing</option>
+    <option value="132">Long Bow</option>
+    <option value="69">Long Spear</option>
+    <option value="64">Longsword</option>
+    <option value="53">Masonry</option>
+    <option value="13">Mauls</option>
+    <option value="37">Meditating</option>
+    <option value="133">Medium Bow</option>
+    <option value="66">Medium Maul</option>
+    <option value="86">Medium Metal Shield</option>
+    <option value="82">Medium Wooden Shield</option>
+    <option value="99">Metallurgy</option>
+    <option value="115">Milking</option>
+    <option value="98">Milling</option>
+    <option value="0">Mind</option>
+    <option value="6">Mind Logic</option>
+    <option value="7">Mind Speed</option>
+    <option value="43">Mining</option>
+    <option value="23">Misc Items</option>
+    <option value="100">Natural Substances</option>
+    <option value="26">Nature</option>
+    <option value="111">Normal Fighting</option>
+    <option value="34">Papyrusmaking</option>
+    <option value="92">Paving</option>
+    <option value="45">Pick axe</option>
+    <option value="57">Plate Armour Smithing</option>
+    <option value="17">Polearms</option>
+    <option value="47">Pottery</option>
+    <option value="117">Praying</option>
+    <option value="116">Preaching</option>
+    <option value="93">Prospecting</option>
+    <option value="106">Puppeteering</option>
+    <option value="39">Rake</option>
+    <option value="30">Religion</option>
+    <option value="96">Repairing</option>
+    <option value="137">Restoration</option>
+    <option value="48">Ropemaking</option>
+    <option value="76">Saw</option>
+    <option value="40">Scythe</option>
+    <option value="114">Shield Bashing</option>
+    <option value="58">Shield Smithing</option>
+    <option value="24">Shields</option>
+    <option value="134">Ship Building</option>
+    <option value="131">Short Bow</option>
+    <option value="89">Shortsword</option>
+    <option value="46">Shovel</option>
+    <option value="41">Sickle</option>
+    <option value="42">Small Axe</option>
+    <option value="67">Small Maul</option>
+    <option value="84">Small Metal Shield</option>
+    <option value="81">Small Wooden Shield</option>
+    <option value="20">Smithing</option>
+    <option value="2">Soul</option>
+    <option value="8">Soul Depth</option>
+    <option value="9">Soul Strength</option>
+    <option value="71">Staff</option>
+    <option value="126">Stealing</option>
+    <option value="74">Stone Chisel</option>
+    <option value="124">Stone Cutting</option>
+    <option value="10">Swords</option>
+    <option value="18">Tailoring</option>
+    <option value="113">Taunting</option>
+    <option value="35">Thatching</option>
+    <option value="31">Thievery</option>
+    <option value="107">Toy Making</option>
+    <option value="27">Toys</option>
+    <option value="80">Tracking</option>
+    <option value="127">Traps</option>
+    <option value="136">Trebuchets</option>
+    <option value="90">Two Handed Sword</option>
+    <option value="32">War Machines</option>
+    <option value="68">Warhammer</option>
+    <option value="55">Weapon Heads Smithing</option>
+    <option value="21">Weapon Smithing</option>
+    <option value="108">Weaponless Fighting</option>
+    <option value="49">Woodcutting</option>
+    <option value="105">Yoyo</option>
+</select></br>
+
+Number of Ingredients:
+<select id='ddlNumberOfIngredients'>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>    
+    </select> </br>
+Number of Sausages:
+<select id='ddlNumberOfSausages'>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select></br>
+
+Setup:
+<select id="ddlSetup">
+</select>
+<select id="ddlSetupRarity">
+</select> </br>
+<button onclick="createPizza()">Pizza!</button>
+<p id='Psetupcombination'></p>
+</body>
+</html> 

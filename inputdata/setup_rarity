@@ -1,0 +1,10 @@
+<select class="form-control" name="cooker_rarity" id="cooker_rarity" title="cooker_rarity" onchange="update()">
+                               <optgroup label="setup_rarity">                                     <option value="1">Normal
+                                        +0</option>
+                                                                    <option value="2">Rare
+                                        +1</option>
+                                                                    <option value="3">Supreme
+                                        +2</option>
+                                                                    <option value="4">Fantastic
+                                        +3</option>
+                                                            </optgroup></select>
