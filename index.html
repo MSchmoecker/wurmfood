@@ -244,7 +244,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         calc_key = (Object.keys(affinites)[calc]);
         calc_affinity = affinites[calc_key];
         
-        new_message.push([calc_affinity,calc_key]);
+        //new_message.push([calc_affinity,calc_key]);
         //message += '<br>'+calc_affinity+"_"+calc_key;
         } while(done!=true);
         /*addToConfigLog(setupcombination+"</br>");
@@ -268,16 +268,28 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         cell = row.insertCell();
         
         alist.sort();
-        textcell1 = '';
+        prepareText = {};
+
         alist.forEach(element => {
+            let line = ""
             for (let index = 0; index < element.length; index++) {
-                textcell1 += element[index]+" ";                
+                line += element[index]+" ";                
             }
 
-            textcell1 += "<br>";
-        });{
-            
+            line += "<br>";
+
+            if(!(line in prepareText)){
+                prepareText[line] = 1;
+            } else {
+                prepareText[line]++;
+            }
+        });
+
+        textcell1 = '';
+        for (key in prepareText)   {
+            textcell1 += prepareText[key] + "x " + key;
         }
+
         cell.innerHTML = textcell1;
         cell = row.insertCell();
         cell.innerHTML = textcell2;
