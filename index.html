@@ -75,9 +75,12 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         // END INGREDIENTS CONFIG
         
         
-       
         targetvalue = valueGoalAffinity;
-        gap = defaultaffinity-valueUserAffinity;
+        gap = (valueUserAffinity%modulovalue)-defaultaffinity;
+
+
+        alert(`default: ${defaultaffinity} User ${valueUserAffinity}  GAP${gap}`)
+       
         var sum = 40+63+gap;
         done=false;
         var message = [];
