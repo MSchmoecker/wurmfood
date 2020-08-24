@@ -138,7 +138,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         //valueNumberOfAdditionalIngredients--;
 
 
-        //add sipce + modificator (herb)
+        //add sipce + modificator (Spice)
         rnd = Math.floor((Math.random() * Object.keys(ingredients.Spice).length) + 1)-1; //number between 0 and 137
         rndkey = Object.keys(ingredients.Spice)[rnd];
         rnd_mod = Math.floor((Math.random() * Object.keys(modifier.Herb).length) + 1)-1;
@@ -147,7 +147,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         modvalue = parseInt(modifier.Spice[key_mod]);
         value = basevalue+modvalue
         sum += value;
-        message.push([rndkey,key_mod,value]);
+        message.push(['Spice',rndkey,key_mod,value]);
         
         //message += `Spice: ${rndkey} ${key_mod} ${basevalue+modvalue}</br>`;  
         //valueNumberOfAdditionalIngredients--;
