@@ -216,8 +216,8 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
                  else if(item=='Spice'){
                     rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
                     key = Object.keys(ingredients[item])[rnd];
-                    key_mod ='Ground';
-                    value = parseInt(ingredients[item][key])+ parseInt(modifier['Herb'][key_mod]);
+                    key_mod ='Spice';
+                    value = parseInt(ingredients[item][key])+ parseInt(modifier['Spice'][key_mod]);
                 } else if(item=='Veggie'){
                     rnd = Math.floor((Math.random() * Object.keys(ingredients[item]).length) + 1)-1;
                     key = Object.keys(ingredients[item])[rnd];
