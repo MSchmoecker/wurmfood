@@ -61,7 +61,9 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         var valueNumberOfAdditionalIngredients = Number(ddlNumberOfIngredientsElement.value);
         var valueNumberOfSausages = Number(ddlNumberOfSausagesElement.value);
         var valueNuts = document.getElementById('checkNuts').checked;
-        setupcombination =     `Setup: ${valueSetup} 
+        var valueLabel = document.getElementById('pizzaname').value;
+        setupcombination =     `${valueLabel}</br>
+                                Setup: ${valueSetup} 
                                 Rarity: ${valueSetupRarity}</br>
                                 UserAffinity: ${affinites[valueUserAffinity]}(${valueUserAffinity})<br>
                                 Goal Affinity: ${affinites[valueGoalAffinity]}(${valueGoalAffinity})<br>
@@ -705,7 +707,9 @@ Setup:
 
 <td>
 <!--Config Ingredients--->
-
+<label for="pizzaname">Label</label>
+<input id='pizzaname'>
+</br>  
 <input id='checkNuts' type="checkbox" checked="unchecked" />
 <label for="checkNuts">Do you have nuts?</label>       
 <!-- END of CONFIG-->
