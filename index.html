@@ -37,7 +37,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
     function createPizza(){
         const modulovalue = 138;
         const defaultmeal = 183;
-        const defaultaffinity = 183%modulovalue; //Oven 40, fryin pan 75, horse 23, pumpkin
+        const defaultaffinity = defaultmeal%modulovalue; //Oven 40, fryin pan 75, horse 23, pumpkin
         //const json = '{"result":true, "count":42}';
         //const obj = JSON.parse(json);
         var ddlSetupElement =  document.getElementById("ddlSetup");
@@ -75,10 +75,10 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
         // END INGREDIENTS CONFIG
         
         
-        var sum = 40+63;
-        var bla = 0;
+       
         targetvalue = valueGoalAffinity;
-        gap = 0;
+        gap = defaultaffinity-valueUserAffinity;
+        var sum = 40+63+gap;
         done=false;
         var message = [];
         do {        
