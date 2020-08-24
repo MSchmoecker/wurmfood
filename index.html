@@ -306,7 +306,7 @@ const affinites = ['Mind', 'Body', 'Soul', 'Body Control', 'Body Stamina', 'Body
 
         textcell1 = '';
         for (key in prepareText)   {
-            textcell1 += prepareText[key] + "x " + key;
+            textcell1 += "<input type='checkbox'/>"+prepareText[key] + "x " + key;
         }
 
         cell.innerHTML = textcell1;
